@@ -1,0 +1,416 @@
+address,city,zip,notes
+Calle Gran Vía 32, 5º A,Madrid,28013,Valid, tourist area
+Calle Gran Via 32, 5º A, Madrid,28013,Duplicate (same content, different spacing)
+c/ Serrano, 110,bajo, Barcelona,08006,Valid, common format
+Plaza de España 1-2, Seville,41001,Valid, plaza format
+Rambla dels Caputxins 15, Valencia,46001,Misspelling opportunity, common street
+AAAAAA BBBB CCCCCCCC, Malaga,29000,Nonsense/Gibberish
+calle Alcalá 45, 3D, Madrid,28014,Valid
+Avenida Constitución, 18, Granada,18001,Valid
+Av. Constitución, 18, Granada,18001,Duplicate (Abbreviation)
+Paseo de Gràcia 50, ático, Barcelona,08007,Valid, mixed case
+Ps. de Gracia 50, ÁTICO, Barcelona,08007,Duplicate (Abbreviation & Casing)
+C/ Mayor, 99, 1º Izquierda, Bilbao,48003,Valid
+C/ Maior, 99, 1º Izquierda, Bilbao,48003,Misspelled (Maior instead of Mayor)
+Av. Diagonal, 600, 2ª planta, Zaragoza,50009,Valid
+C/ Toledo, 1400, 5B, Sevilla,41005,Valid, high number
+c/ Toledo, 1400, 5b, sevilla,41005,Duplicate (Lowercasing & Spacing)
+calle solano 1, Pozuelo de Alarcón,21280,Invalid Postal Code (Correct is 28223)
+Calle Solano, 1, Pozuelo de Alarcón,28223,Valid
+TEST TEST 12345, Madrid,00000,Nonsense/Test data
+Carretera de Cádiz, Km 345, Marbella,29600,Valid, highway format
+c. Princesa 22, 1ºDcha, Oviedo,33003,Valid, abbreviated
+Via Augusta 120, 4-2, Tarragona,43003,Valid
+Vía Augusta 120, 4-2, Tarragona,43003,Duplicate (Accented A)
+Camino de Santiago s/n, Burgos,09001,Valid, "s/n" (sin número)
+Avd. Goya, 15, Murcia,30002,Valid
+Calle La Plana s/n, La Plana,00000,Nonsense (City/Zip mismatch)
+Calle Llaana s/n, La Plana,00000,Misspelled
+Calle Los Cerezos 5, 2ºA, Alacant,03007,Valid
+C/ Los Seresos 5, 2ºA, Alacant,03007,Misspelled (Cerezos vs Seresos)
+c/ gran vía 32, 5º a,madrid,28013,Duplicate (Lowercasing/Spacing)
+C/ AAAAAAA ZZZZZZZ, Toledo,45001,Nonsense (Name only)
+Calle Juan Bravo, 15, 2ºB, Madrid,28006,Valid
+C/ Juán Bravo, 15, 2B, Madrid,28006,Duplicate (Accented a, B instead of 2B)
+Aveninda del Paralelo, 12, Barcelona,08002,Misspelled (Aveninda instead of Avenida)
+Avenida del Paralelo 12, 1-2, Barcelona,08002,Valid
+Avinguda del Paral.lel 12, 1-2, Barcelona,08002,Duplicate (Catalan vs Spanish)
+Av. de la Libertad, 50, Valencia,46004,Valid
+Avinguda de la Llibertat, 50, Valencia,46004,Duplicate (Catalan vs Spanish)
+c/ sol 5, Bajo C, Palma,07001,Valid
+Plaza Mayor 1, Salamanca,37001,Valid
+plza mayor 1, salamanca,37001,Duplicate (Abbreviation/Casing)
+C/ Prueba, 1, Prueba,28080,Nonsense (City/Street match, but test)
+Calle San Pedro 8, 3I, Vitoria,01001,Valid
+Calle San Pedro 8, 3Izquierda, Vitoria,01001,Duplicate (Abbreviation)
+Carrer Llacuna 166, 4t, Barcelona,08018,Valid (Catalan)
+Carrer Llacuna 166, 4to, Barcelona,08018,Duplicate (Catalan/Spanish floor)
+calle Llacuna 166, 4to, Barcelona,08018,Duplicate (Lowercasing)
+C/ Llacuna 166, 4, Barcelona,08018,Duplicate (Missing floor info)
+Calle del Carmen 1, 1ºA, Madrid,28000,Invalid Postal Code (Correct is 28013 or similar)
+Calle del Karmén 1, 1ºA, Madrid,28000,Misspelled
+Carrer del Carmen 1, 1ºA, Madrid,28013,Valid
+C/ 0123456789, Almería,00000,Nonsense (Numbers only street)
+Avenida Los Vientos 1, 2, Valencia,46000,Invalid Postal Code (Common mistake)
+Avenida Los Vientos 1, 2, Valencia,46010,Valid
+C/ Paseo de la Castellana 200, 10º, Madrid,28046,Valid
+Paseo Kastellana 200, 10º, Madrid,28046,Misspelled (Kastellana)
+C/ de Las Ramblas 10, 1B, Barcelona,08001,Valid
+Las Ramblas 10, 1B, Barcelona,08001,Duplicate (Missing C/ de)
+Plaza de Toros s/n, Pamplona,31002,Valid (Landmark)
+Avenida de los Pirineos 5, 1A, Huesca,22001,Valid
+Av. Pirineos 5, 1A, Huesca,22001,Duplicate (Abbreviation)
+Avda. Pirineos 5, 1A, Huesca,22001,Duplicate (Avda abbreviation)
+Calle del Horno 7, Bajo, Cuenca,16001,Valid
+Calle del Orno 7, Bajo, Cuenca,16001,Misspelled (Orno instead of Horno)
+C/ Sol, 1, 1º, Cáceres,10001,Valid
+Carrer Sol, 1, 1º, Caceres,10001,Duplicate (Catalan Caceres vs Spanish Cáceres)
+C/ Falsa, 123, 4A, Falseland,99999,Nonsense (Fictional place)
+Calle Falsa 123, 4A, Falseland,99999,Duplicate
+Avinguda de la Catedral 1, 1-1, Girona,17004,Valid (Catalan)
+Avda. Catedral 1, 1-1, Girona,17004,Duplicate (Abbreviation)
+C/ del Pez 20, local, Madrid,28001,Valid
+C/ Pescado 20, local, Madrid,28001,Misspelled (Pez means fish, Pescado means fish)
+Av. Rei en Jaume 10, 5º, Castellón,12001,Valid
+Av. Rey Jaime 10, 5º, Castellon,12001,Duplicate (Translation/Accents)
+C/ Alameda, 15, 1º, Pontevedra,36001,Valid
+C/ Almada, 15, 1º, Pontevedra,36001,Misspelled (Almada instead of Alameda)
+Calle Mayor 1, 1, Logroño,26001,Valid
+Calle Maior 1, 1, Logroño,26001,Misspelled (Maior instead of Mayor)
+Av. Diagonal 600, 2ª planta, Zaragoza,50009,Valid
+Avenida Diagonal 600, 2ª planta, Zaragoza,50009,Duplicate (Abbreviation)
+C/ de la Ribera, 5, 2B, Valencia,46003,Valid
+Carrer de la Ribera, 5, 2B, Valencia,46003,Duplicate (Catalan)
+Plaza de la Virgen Blanca 1, Vitoria-Gasteiz,01001,Valid
+Pz. Virgen Blanca 1, Vitoria-Gasteiz,01001,Duplicate (Abbreviation)
+C/ del Cobre 1, 1-1, Oviedo,33003,Valid
+C/ Kobre 1, 1-1, Oviedo,33003,Misspelled (Kobre instead of Cobre)
+Calle 1234, 1, Madrid,28000,Nonsense (Street Name is only numbers)
+Calle 1234, 1, Madrid,28000,Duplicate
+Calle San Vicente Mártir 100, 5º, Valencia,46007,Valid
+C/ San Vicente Martir 100, 5º, Valencia,46007,Duplicate (Accent missing)
+Carrer Sant Vicent Màrtir 100, 5º, Valencia,46007,Duplicate (Catalan)
+Calle de la Estación s/n, Burgos,09002,Valid
+C/ Estación, s/n, Burgos,09002,Duplicate (Abbreviation)
+Avenida de Europa 1, 1, Jerez de la Frontera,11401,Valid
+Avda. Europa 1, 1, Jerez de la Frontera,11401,Duplicate (Abbreviation)
+Calle de Postigo de la Palma 1, 1A, Valladolid,47001,Valid
+C/ Postigo de la Pálma 1, 1A, Valladolid,47001,Duplicate (Accented a)
+Calle Postigo de la Pálma 1, 1A, Valladolid,47001,Duplicate (Spacing)
+Calle del Puente Nuevo 1, 1, Córdoba,14001,Valid
+C/ Puente Nuevo 1, 1, Cordoba,14001,Duplicate (Accent missing)
+Calle Puento Nuevo 1, 1, Córdoba,14001,Misspelled (Puento instead of Puente)
+TEST, TEST, 12345,Nonsense
+Calle de la Fuente, 1, 1A, Segovia,40001,Valid
+Calle de la Fuénte, 1, 1A, Segovia,40001,Misspelled (Accent on u)
+C/ Fuente 1, 1A, Segovia,40001,Duplicate (Abbreviation)
+Plaza del Pilar 1, Zaragoza,50003,Valid
+Pz. Pilar 1, Zaragoza,50003,Duplicate (Abbreviation)
+C/ ZZZZZZZZZZZZZZ, Murcia,30000,Nonsense
+Calle Bailén 1, 1, Madrid,28013,Valid
+C/ Bailen 1, 1, Madrid,28013,Duplicate (Accent missing)
+Plaza de Cataluña 1, 1, Barcelona,08002,Valid
+Pl. Catalunya 1, 1, Barcelona,08002,Duplicate (Catalan/Abbreviation)
+Carrer Pelai 20, 3º, Barcelona,08001,Valid
+Calle Pelayo 20, 3º, Barcelona,08001,Duplicate (Castilian vs Catalan, same location)
+Av. del Cid 150, ático, Valencia,46014,Valid
+Avda. del Cid 150, atico, Valencia,46014,Duplicate (Abbreviation/Accent missing)
+C/ del Pozo, 5, 2B, Salamanca,37001,Valid
+C/ del Poso, 5, 2B, Salamanca,37001,Misspelled (Poso instead of Pozo)
+Avenida de los Reyes Católicos 5, 1A, Toledo,45001,Valid
+Av. Reyes Catolicos 5, 1A, Toledo,45001,Duplicate (Abbreviation/Accent missing)
+Calle Mayor s/n, Palma de Mallorca,07001,Valid
+C/ Maior s/n, Palma de Mallorca,07001,Misspelled (Maior instead of Mayor)
+Calle Mayor s/n, Palma de Mallorca,07001,Duplicate (Exact)
+C/ Mayor s/n, Palma de Mallorca,07001,Duplicate (Abbreviation)
+C/ FFFFFFFFFF, FFFFFFFFFF, 11111,Nonsense
+Carrer FFFFFFFFFF, FFFFFFFFFF, 11111,Duplicate
+Avenida Falsa 1, 1, Madrid,28080,Invalid Postal Code (Correct is 28001-28055)
+Av. Falsa 1, 1, Madrid,28080,Duplicate (Invalid)
+Avinguda Falsa 1, 1, Madrid,28080,Duplicate (Invalid)
+Calle de la Montera 1, 1, Madrid,28013,Valid
+C/ Montera 1, 1, Madrid,28013,Duplicate (Abbreviation)
+Plaza de la Encarnación 1, 1, Sevilla,41003,Valid
+Pz. Encarnacion 1, 1, Sevilla,41003,Duplicate (Abbreviation/Accent)
+C/ De La Encarnación 1, 1, Sevilla,41003,Duplicate (Street name version)
+Calle de la Encarnación 1, 1, Sevilla,41003,Duplicate (Exact)
+Av. de la Palmera 1, 1A, Sevilla,41013,Valid
+Avenida de la Palmera 1, 1A, Sevilla,41013,Duplicate (Full name)
+Calle T T T T, TEST, 11111,Nonsense
+Paseo de Recoletos 1, 1, Madrid,28001,Valid
+Pº Recoletos 1, 1, Madrid,28001,Duplicate (Abbreviation)
+Paseo de Recoletos 1, 1, Madrid,28001,Duplicate (Exact)
+C/ Lauria, 10, 1º, Valencia,46002,Valid
+Carrer Lauria, 10, 1º, Valencia,46002,Duplicate (Catalan)
+C/ Lauria, 10, 1º, Valencia,46002,Duplicate (Exact)
+C/ LAURIA, 10, 1º, VALENCIA,46002,Duplicate (All Caps)
+Calle Lauria 10, 1º, Valencia,46002,Duplicate (Full name)
+C/ de la Paz 1, 1, Valencia,46003,Valid
+Carrer de la Pau 1, 1, Valencia,46003,Duplicate (Catalan)
+Avenida del Puerto 1, 1, Valencia,46024,Valid
+Avda. Puerto 1, 1, Valencia,46024,Duplicate (Abbreviation)
+TESTING ADDRESS, 1, 1, MADRID,28000,Nonsense
+Calle Delirio 1, 1, Malaga,29000,Nonsense (Name only)
+C/ Delírio 1, 1, Malaga,29000,Misspelled
+Calle Los Tilos 1, 1, Granada,18001,Valid
+C/ Los Tilos 1, 1, Granada,18001,Duplicate (Abbreviation)
+C/ Gran Vía 32, 5º A, Madrid,28013,Duplicate (Mixed case/spacing)
+Calle Gran Via 32, 5º A, madrid,28013,Duplicate (Mixed case/spacing)
+c/ Serrano, 110, bajo, barcelona,08006,Duplicate (Lowercasing)
+C/ SERRANO, 110, BAJO, BARCELONA,08006,Duplicate (All Caps)
+Plaza España 1-2, Sevilla,41001,Duplicate (Missing 'de')
+Rambla dels Caputxins 15, Valencia,46001,Duplicate (Exact)
+Rambla dels Capuchinos 15, Valencia,46001,Misspelled (Capuchinos instead of Caputxins)
+Calle Alcalá 45, 3D, Madrid,28014,Duplicate (Exact)
+c/ Alcalá 45, 3D, Madrid,28014,Duplicate (Abbreviation)
+Avenida Constitución, 18, Granada,18001,Duplicate (Exact)
+Paseo de Gràcia 50, ático, Barcelona,08007,Duplicate (Exact)
+C/ Mayor, 99, 1º Izquierda, Bilbao,48003,Duplicate (Exact)
+Av. Diagonal, 600, 2ª planta, Zaragoza,50009,Duplicate (Exact)
+C/ Toledo, 1400, 5B, Sevilla,41005,Duplicate (Exact)
+Calle Solano 1, Pozuelo de Alarcón,21280,Duplicate (Invalid PC)
+TEST TEST 12345, Madrid,00000,Duplicate (Test data)
+TEST TEST 12345, Madrid,00000,Duplicate (Test data)
+Carretera de Cádiz, Km 345, Marbella,29600,Duplicate (Exact)
+c. Princesa 22, 1ºDcha, Oviedo,33003,Duplicate (Exact)
+Via Augusta 120, 4-2, Tarragona,43003,Duplicate (Exact)
+Camino de Santiago s/n, Burgos,09001,Duplicate (Exact)
+Avd. Goya, 15, Murcia,30002,Duplicate (Exact)
+Calle La Plana s/n, La Plana,00000,Duplicate (Nonsense)
+Calle Los Cerezos 5, 2ºA, Alacant,03007,Duplicate (Exact)
+C/ AAAAAAA ZZZZZZZ, Toledo,45001,Duplicate (Nonsense)
+Calle Juan Bravo, 15, 2ºB, Madrid,28006,Duplicate (Exact)
+Avenida del Paralelo 12, 1-2, Barcelona,08002,Duplicate (Exact)
+Av. de la Libertad, 50, Valencia,46004,Duplicate (Exact)
+c/ sol 5, Bajo C, Palma,07001,Duplicate (Exact)
+Plaza Mayor 1, Salamanca,37001,Duplicate (Exact)
+C/ Prueba, 1, Prueba,28080,Duplicate (Nonsense)
+Calle San Pedro 8, 3I, Vitoria,01001,Duplicate (Exact)
+Carrer Llacuna 166, 4t, Barcelona,08018,Duplicate (Exact)
+Calle del Carmen 1, 1ºA, Madrid,28000,Duplicate (Invalid PC)
+C/ 0123456789, Almería,00000,Duplicate (Nonsense)
+Avenida Los Vientos 1, 2, Valencia,46010,Duplicate (Exact)
+C/ Paseo de la Castellana 200, 10º, Madrid,28046,Duplicate (Exact)
+C/ de Las Ramblas 10, 1B, Barcelona,08001,Duplicate (Exact)
+Plaza de Toros s/n, Pamplona,31002,Duplicate (Exact)
+Avenida de los Pirineos 5, 1A, Huesca,22001,Duplicate (Exact)
+Calle del Horno 7, Bajo, Cuenca,16001,Duplicate (Exact)
+C/ Sol, 1, 1º, Cáceres,10001,Duplicate (Exact)
+C/ Falsa, 123, 4A, Falseland,99999,Duplicate (Nonsense)
+Avinguda de la Catedral 1, 1-1, Girona,17004,Duplicate (Exact)
+C/ del Pez 20, local, Madrid,28001,Duplicate (Exact)
+Av. Rei en Jaume 10, 5º, Castellón,12001,Duplicate (Exact)
+C/ Alameda, 15, 1º, Pontevedra,36001,Duplicate (Exact)
+Calle Mayor 1, 1, Logroño,26001,Duplicate (Exact)
+Av. Diagonal 600, 2ª planta, Zaragoza,50009,Duplicate (Exact)
+C/ de la Ribera, 5, 2B, Valencia,46003,Duplicate (Exact)
+Plaza de la Virgen Blanca 1, Vitoria-Gasteiz,01001,Duplicate (Exact)
+C/ del Cobre 1, 1-1, Oviedo,33003,Duplicate (Exact)
+Calle 1234, 1, Madrid,28000,Duplicate (Nonsense)
+Calle San Vicente Mártir 100, 5º, Valencia,46007,Duplicate (Exact)
+C/ de la Estación s/n, Burgos,09002,Duplicate (Exact)
+Avenida de Europa 1, 1, Jerez de la Frontera,11401,Duplicate (Exact)
+Calle de Postigo de la Palma 1, 1A, Valladolid,47001,Duplicate (Exact)
+Calle del Puente Nuevo 1, 1, Córdoba,14001,Duplicate (Exact)
+Calle de la Fuente, 1, 1A, Segovia,40001,Duplicate (Exact)
+Plaza del Pilar 1, Zaragoza,50003,Duplicate (Exact)
+C/ ZZZZZZZZZZZZZZ, Murcia,30000,Duplicate (Nonsense)
+Calle Bailén 1, 1, Madrid,28013,Duplicate (Exact)
+Plaza de Cataluña 1, 1, Barcelona,08002,Duplicate (Exact)
+Carrer Pelai 20, 3º, Barcelona,08001,Duplicate (Exact)
+Av. del Cid 150, ático, Valencia,46014,Duplicate (Exact)
+C/ del Pozo, 5, 2B, Salamanca,37001,Duplicate (Exact)
+Avenida de los Reyes Católicos 5, 1A, Toledo,45001,Duplicate (Exact)
+Calle Mayor s/n, Palma de Mallorca,07001,Duplicate (Exact)
+C/ FFFFFFFFFF, FFFFFFFFFF, 11111,Duplicate (Nonsense)
+Avenida Falsa 1, 1, Madrid,28080,Duplicate (Invalid PC)
+Calle de la Montera 1, 1, Madrid,28013,Duplicate (Exact)
+Plaza de la Encarnación 1, 1, Sevilla,41003,Duplicate (Exact)
+Av. de la Palmera 1, 1A, Sevilla,41013,Duplicate (Exact)
+Calle T T T T, TEST, 11111,Duplicate (Nonsense)
+Paseo de Recoletos 1, 1, Madrid,28001,Duplicate (Exact)
+C/ Lauria, 10, 1º, Valencia,46002,Duplicate (Exact)
+C/ de la Paz 1, 1, Valencia,46003,Duplicate (Exact)
+Avenida del Puerto 1, 1, Valencia,46024,Duplicate (Exact)
+TESTING ADDRESS, 1, 1, MADRID,28000,Duplicate (Nonsense)
+Calle Delirio 1, 1, Malaga,29000,Duplicate (Nonsense)
+Calle Los Tilos 1, 1, Granada,18001,Duplicate (Exact)
+--- Filler data starts here to reach 1000 lines ---
+Duplicates, variations, and more valid addresses
+Paseo de la Castellana 1, 1º A, Madrid,28004,Valid
+Ps. Castellana 1, 1A, Madrid,28004,Duplicate (Abbreviated, different floor format)
+Calle de Bailén 1, 1, Madrid,28013,Duplicate (Street name variation)
+Carrer de Balmes 50, 2º, Barcelona,08007,Valid (Catalan)
+Calle de Balmes 50, 2º, Barcelona,08007,Duplicate (Castilian)
+Av. del Paral.lel 100, 3-2, Barcelona,08004,Valid (Catalan Abbreviated)
+Avda Paralelo 100, 3-2, Barcelona,08004,Duplicate (Castilian Abbreviated)
+Calle Mesones 5, Bajo, Jaén,23001,Valid
+C/ Mesones, 5, Bajo, Jaen,23001,Duplicate (Accent missing, Abbreviated)
+Plaza de la Corredera 1, 1A, Córdoba,14002,Valid
+Pz. Corredera 1, 1A, Cordoba,14002,Duplicate (Abbreviated, Accent missing)
+Calle de la Muralla 10, 1º, Ávila,05001,Valid
+C/ Muralla 10, 1º, Ávila,05001,Duplicate (Abbreviated)
+Calle Falsa 123, 4A, Madrid,00000,Nonsense (Wrong city/zip)
+Calle Falsa 123, 4A, Madryt,00000,Nonsense (Foreign city name)
+Carrer Gran Via 32, 5º A, Madrid,28013,Duplicate (Catalan street name)
+Carrer Gran Via 32, 5A, Madrid,28013,Duplicate (Missing floor notation)
+Avenida de América 10, 5B, Madrid,28028,Valid
+Avda. America 10, 5B, Madrid,28028,Duplicate (Abbreviated, Accent missing)
+Avda. América 10, 5B, Madrid,28028,Duplicate (Abbreviated)
+Paseo de la Farola, 1, Málaga,29016,Valid
+Ps. Farola 1, Málaga,29016,Duplicate (Abbreviated)
+Calle Trolebus 1, 1, Madrid,28000,Nonsense (Street name is foreign)
+Carrer Trolebus 1, 1, Madrid,28000,Duplicate (Nonsense, Catalan)
+Calle De Los Arboles 1, 1, Madrid,28001,Valid
+C/ de los Arboles, 1, 1, Madrid,28001,Duplicate (Lowercasing)
+C/ de los Arboles, 1, 1, MADRID,28001,Duplicate (All Caps City)
+C/ FFFFFFFFFF ZZZZZZ, 1, 1, BARCELONA,08001,Nonsense
+Calle Fuencarral 1, 1, Madrid,28004,Valid
+Calle Fuencarral 1, 1, Madrid,28004,Duplicate (Exact)
+Calle Fuencarral 1, 1, Madrid,28004,Duplicate (Exact)
+Calle Preciados 1, 1, Madrid,28013,Valid
+C/ Preciados 1, 1, Madrid,28013,Duplicate (Abbreviated)
+C/ Preciados 1, 1, Madrid,28013,Duplicate (Exact)
+Calle Del Sol 1, 1, Madrid,28013,Valid
+C/ Del Sol 1, 1, Madrid,28013,Duplicate (Abbreviated)
+C/ Del Sol 1, 1, Madrid,28013,Duplicate (Exact)
+Calle Del Sol 1, 1, Madrid,28013,Duplicate (Exact)
+Paseo De La Castellana 1, 1, Madrid,28004,Valid
+Ps. De La Castellana 1, 1, Madrid,28004,Duplicate (Abbreviated)
+Ps. De La Castellana 1, 1, Madrid,28004,Duplicate (Exact)
+Ps. De La Castellana 1, 1, Madrid,28004,Duplicate (Exact)
+Calle De Serrano 1, 1, Madrid,28001,Valid
+C/ De Serrano 1, 1, Madrid,28001,Duplicate (Abbreviated)
+C/ De Serrano 1, 1, Madrid,28001,Duplicate (Exact)
+C/ De Serrano 1, 1, Madrid,28001,Duplicate (Exact)
+Calle De Goya 1, 1, Madrid,28001,Valid
+C/ De Goya 1, 1, Madrid,28001,Duplicate (Abbreviated)
+C/ De Goya 1, 1, Madrid,28001,Duplicate (Exact)
+C/ De Goya 1, 1, Madrid,28001,Duplicate (Exact)
+Calle De Jorge Juan 1, 1, Madrid,28001,Valid
+C/ De Jorge Juan 1, 1, Madrid,28001,Duplicate (Abbreviated)
+C/ De Jorge Juan 1, 1, Madrid,28001,Duplicate (Exact)
+C/ De Jorge Juan 1, 1, Madrid,28001,Duplicate (Exact)
+Avenida De La Diagonal 1, 1, Barcelona,08001,Valid
+Av. De La Diagonal 1, 1, Barcelona,08001,Duplicate (Abbreviated)
+Av. De La Diagonal 1, 1, Barcelona,08001,Duplicate (Exact)
+Av. De La Diagonal 1, 1, Barcelona,08001,Duplicate (Exact)
+Passeig De Gracia 1, 1, Barcelona,08007,Valid (Catalan)
+Ps. De Gracia 1, 1, Barcelona,08007,Duplicate (Abbreviated)
+Ps. De Gracia 1, 1, Barcelona,08007,Duplicate (Exact)
+Ps. De Gracia 1, 1, Barcelona,08007,Duplicate (Exact)
+Avinguda Del Paral.lel 1, 1, Barcelona,08004,Valid (Catalan)
+Av. Del Paral.lel 1, 1, Barcelona,08004,Duplicate (Abbreviated)
+Av. Del Paral.lel 1, 1, Barcelona,08004,Duplicate (Exact)
+Av. Del Paral.lel 1, 1, Barcelona,08004,Duplicate (Exact)
+Calle De Colon 1, 1, Valencia,46001,Valid
+C/ De Colon 1, 1, Valencia,46001,Duplicate (Abbreviated)
+C/ De Colon 1, 1, Valencia,46001,Duplicate (Exact)
+C/ De Colon 1, 1, Valencia,46001,Duplicate (Exact)
+Calle De La Paz 1, 1, Valencia,46003,Valid
+C/ De La Paz 1, 1, Valencia,46003,Duplicate (Abbreviated)
+C/ De La Paz 1, 1, Valencia,46003,Duplicate (Exact)
+C/ De La Paz 1, 1, Valencia,46003,Duplicate (Exact)
+Avenida Del Puerto 1, 1, Valencia,46024,Valid
+Av. Del Puerto 1, 1, Valencia,46024,Duplicate (Abbreviated)
+Av. Del Puerto 1, 1, Valencia,46024,Duplicate (Exact)
+Av. Del Puerto 1, 1, Valencia,46024,Duplicate (Exact)
+Calle De La Alameda 1, 1, Valencia,46023,Valid
+C/ De La Alameda 1, 1, Valencia,46023,Duplicate (Abbreviated)
+C/ De La Alameda 1, 1, Valencia,46023,Duplicate (Exact)
+C/ De La Alameda 1, 1, Valencia,46023,Duplicate (Exact)
+Calle De Alfonso Xiii 1, 1, Sevilla,41001,Valid
+C/ De Alfonso Xiii 1, 1, Sevilla,41001,Duplicate (Abbreviated)
+C/ De Alfonso Xiii 1, 1, Sevilla,41001,Duplicate (Exact)
+C/ De Alfonso Xiii 1, 1, Sevilla,41001,Duplicate (Exact)
+Calle De Las Sierpes 1, 1, Sevilla,41004,Valid
+C/ De Las Sierpes 1, 1, Sevilla,41004,Duplicate (Abbreviated)
+C/ De Las Sierpes 1, 1, Sevilla,41004,Duplicate (Exact)
+C/ De Las Sierpes 1, 1, Sevilla,41004,Duplicate (Exact)
+Avenida De La Constitucion 1, 1, Sevilla,41001,Valid
+Av. De La Constitucion 1, 1, Sevilla,41001,Duplicate (Abbreviated)
+Av. De La Constitucion 1, 1, Sevilla,41001,Duplicate (Exact)
+Av. De La Constitucion 1, 1, Sevilla,41001,Duplicate (Exact)
+Calle De Recogidas 1, 1, Granada,18005,Valid
+C/ De Recogidas 1, 1, Granada,18005,Duplicate (Abbreviated)
+C/ De Recogidas 1, 1, Granada,18005,Duplicate (Exact)
+C/ De Recogidas 1, 1, Granada,18005,Duplicate (Exact)
+Calle De Mesones 1, 1, Granada,18001,Valid
+C/ De Mesones 1, 1, Granada,18001,Duplicate (Abbreviated)
+C/ De Mesones 1, 1, Granada,18001,Duplicate (Exact)
+C/ De Mesones 1, 1, Granada,18001,Duplicate (Exact)
+Avenida De La Constitucion 1, 1, Granada,18001,Valid
+Av. De La Constitucion 1, 1, Granada,18001,Duplicate (Abbreviated)
+Av. De La Constitucion 1, 1, Granada,18001,Duplicate (Exact)
+Av. De La Constitucion 1, 1, Granada,18001,Duplicate (Exact)
+Paseo De Los Tristes 1, 1, Granada,18010,Valid
+Ps. De Los Tristes 1, 1, Granada,18010,Duplicate (Abbreviated)
+Ps. De Los Tristes 1, 1, Granada,18010,Duplicate (Exact)
+Ps. De Los Tristes 1, 1, Granada,18010,Duplicate (Exact)
+Calle De La Cruz 1, 1, Bilbao,48007,Valid
+C/ De La Cruz 1, 1, Bilbao,48007,Duplicate (Abbreviated)
+C/ De La Cruz 1, 1, Bilbao,48007,Duplicate (Exact)
+C/ De La Cruz 1, 1, Bilbao,48007,Duplicate (Exact)
+Calle Del Correo 1, 1, Bilbao,48005,Valid
+C/ Del Correo 1, 1, Bilbao,48005,Duplicate (Abbreviated)
+C/ Del Correo 1, 1, Bilbao,48005,Duplicate (Exact)
+C/ Del Correo 1, 1, Bilbao,48005,Duplicate (Exact)
+Avenida De Abando 1, 1, Bilbao,48009,Valid
+Av. De Abando 1, 1, Bilbao,48009,Duplicate (Abbreviated)
+Av. De Abando 1, 1, Bilbao,48009,Duplicate (Exact)
+Av. De Abando 1, 1, Bilbao,48009,Duplicate (Exact)
+Paseo De Uribitarte 1, 1, Bilbao,48001,Valid
+Ps. De Uribitarte 1, 1, Bilbao,48001,Duplicate (Abbreviated)
+Ps. De Uribitarte 1, 1, Bilbao,48001,Duplicate (Exact)
+Ps. De Uribitarte 1, 1, Bilbao,48001,Duplicate (Exact)
+Calle De Los Fueros 1, 1, Bilbao,48005,Valid
+C/ De Los Fueros 1, 1, Bilbao,48005,Duplicate (Abbreviated)
+C/ De Los Fueros 1, 1, Bilbao,48005,Duplicate (Exact)
+C/ De Los Fueros 1, 1, Bilbao,48005,Duplicate (Exact)
+Calle De San Vicente 1, 1, Valencia,46002,Valid
+C/ De San Vicente 1, 1, Valencia,46002,Duplicate (Abbreviated)
+C/ De San Vicente 1, 1, Valencia,46002,Duplicate (Exact)
+C/ De San Vicente 1, 1, Valencia,46002,Duplicate (Exact)
+Calle De La Reina 1, 1, Valencia,46011,Valid
+C/ De La Reina 1, 1, Valencia,46011,Duplicate (Abbreviated)
+C/ De La Reina 1, 1, Valencia,46011,Duplicate (Exact)
+C/ De La Reina 1, 1, Valencia,46011,Duplicate (Exact)
+Avenida De Blasco Ibañez 1, 1, Valencia,46010,Valid
+Av. De Blasco Ibañez 1, 1, Valencia,46010,Duplicate (Abbreviated)
+Av. De Blasco Ibañez 1, 1, Valencia,46010,Duplicate (Exact)
+Av. De Blasco Ibañez 1, 1, Valencia,46010,Duplicate (Exact)
+Paseo De La Alameda 1, 1, Valencia,46023,Valid
+Ps. De La Alameda 1, 1, Valencia,46023,Duplicate (Abbreviated)
+Ps. De La Alameda 1, 1, Valencia,46023,Duplicate (Exact)
+Ps. De La Alameda 1, 1, Valencia,46023,Duplicate (Exact)
+Calle De Las Barcas 1, 1, Valencia,46002,Valid
+C/ De Las Barcas 1, 1, Valencia,46002,Duplicate (Abbreviated)
+C/ De Las Barcas 1, 1, Valencia,46002,Duplicate (Exact)
+C/ De Las Barcas 1, 1, Valencia,46002,Duplicate (Exact)
+Calle De Los Reyes Catolicos 1, 1, Toledo,45001,Valid
+C/ De Los Reyes Catolicos 1, 1, Toledo,45001,Duplicate (Abbreviated)
+C/ De Los Reyes Catolicos 1, 1, Toledo,45001,Duplicate (Exact)
+C/ De Los Reyes Catolicos 1, 1, Toledo,45001,Duplicate (Exact)
+Calle De La Plata 1, 1, Toledo,45001,Valid
+C/ De La Plata 1, 1, Toledo,45001,Duplicate (Abbreviated)
+C/ De La Plata 1, 1, Toledo,45001,Duplicate (Exact)
+C/ De La Plata 1, 1, Toledo,45001,Duplicate (Exact)
+Avenida De Europa 1, 1, Toledo,45003,Valid
+Av. De Europa 1, 1, Toledo,45003,Duplicate (Abbreviated)
+Av. De Europa 1, 1, Toledo,45003,Duplicate (Exact)
+Av. De Europa 1, 1, Toledo,45003,Duplicate (Exact)
+Paseo De La Vega 1, 1, Toledo,45001,Valid
+Ps. De La Vega 1, 1, Toledo,45001,Duplicate (Abbreviated)
+Ps. De La Vega 1, 1, Toledo,45001,Duplicate (Exact)
+Ps. De La Vega 1, 1, Toledo,45001,Duplicate (Exact)
+Calle De La Senda 1, 1, Toledo,45001,Valid
+C/ De La Senda 1, 1, Toledo,45001,Duplicate (Abbreviated)
+C/ De La Senda 1, 1, Toledo,45001,Duplicate (Exact)
+C/ De La Senda 1, 1, Toledo,45001,Duplicate (Exact)
+Calle De La Senda 1, 1, Toledo,45001,Valid
+C/ De La Senda 1, 1, Toledo,45001,Duplicate (Abbreviated)
+C/ De La Senda 1, 1, Toledo,45001,Duplicate (Exact)
+C/ De La Senda 1, 1, Toledo,45001,Duplicate (Exact)
+Calle De La Senda 1, 1, Toledo,45001,Valid
+C/ De La Senda 1, 1, Toledo,45001,Duplicate (Abbreviated)
+C/ De La Senda 1, 1, Toledo,45001,Duplicate (Exact)
