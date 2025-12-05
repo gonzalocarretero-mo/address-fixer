@@ -1,0 +1,56 @@
+address,city,zip,expected_status,notes
+"Calle Gran Vía 32, 5º A",Madrid,28013,valid,Standard valid address
+"c/ Serrano 110, bajo",Barcelona,08006,valid,Abbreviated street name
+"Plaza de España 1-2",Sevilla,41001,valid,Plaza format
+"Av. Diagonal 600, 2ª planta",Zaragoza,50009,valid,Avenue with floor
+"Paseo de Gràcia 50",Barcelona,08007,valid,Catalan spelling
+"Calle Mayor 1",Bilbao,48005,valid,Simple format
+"Carrer Llacuna 166, 4t",Barcelona,08018,valid,Catalan street name
+"Avenida de la Constitución 18",Granada,18001,valid,Full avenue name
+"Rúa do Franco 15",Santiago de Compostela,15705,valid,Galician street name
+"Kalea Nagusia 5",Donostia,20001,valid,Basque street name
+"Calle Solano 1",Pozuelo de Alarcón,28223,valid,Suburb of Madrid
+"Plaza Mayor 1",Salamanca,37001,valid,Historic plaza
+"Calle del Carmen 1, 1ºA",Madrid,28013,valid,With apartment
+"AAAAAAA BBBBBBB CCCCCC",Madrid,28013,nonsense,Gibberish characters
+"asdfgh jklñ qwerty",Barcelona,08001,nonsense,Keyboard mashing
+"TEST TEST PRUEBA",Valencia,46001,nonsense,Test data markers
+"xxxxx yyyyy zzzzz",Sevilla,41001,nonsense,Repeated patterns
+"1234567890",Madrid,28001,nonsense,Only numbers
+"No quiero dar mi dirección",Madrid,28013,nonsense,Refusal in Spanish
+"Prefiero no decirlo",Barcelona,08001,nonsense,Refusal variant
+"No tengo dirección",Valencia,46001,nonsense,Another refusal
+"",Madrid,28013,invalid_format,Empty address
+"AB",Madrid,28013,invalid_format,Too short
+"Calle Mayor 1",Madrid,99999,invalid_format,Invalid province code 99
+"Calle Mayor 1",Madrid,00000,invalid_format,Invalid province code 00
+"Calle Mayor 1",Madrid,2801,invalid_format,Only 4 digits
+"Calle Mayor 1",Madrid,ABCDE,invalid_format,Non-numeric postal code
+"Calle Serrano 50",Madrid,08001,invalid_mismatch,Madrid address with Barcelona postal
+"Av. Diagonal 100",Barcelona,28013,invalid_mismatch,Barcelona address with Madrid postal
+"Plaza del Pilar 1",Zaragoza,41001,invalid_mismatch,Zaragoza with Sevilla postal
+"Calle Mayor 1",Bilbao,46001,invalid_mismatch,Bilbao with Valencia postal
+"Calle Gran Vía 32",Seville,41001,valid_normalized,English city name should normalize to Sevilla
+"Paseo de Gracia 50",Lerida,25001,valid_normalized,Spanish spelling should normalize to Lleida
+"Calle Mayor 1",San Sebastian,20001,valid_normalized,Should match Donostia - San Sebastian
+"Avenida Principal 1",Gerona,17001,valid_normalized,Spanish spelling should normalize to Girona
+"Calle Real 5",La Coruña,15001,valid_normalized,Should match A Coruña
+"Calle Mayor 1",Madird,28013,valid_normalized,Typo should be corrected to Madrid
+"Av. Diagonal 100",Barselona,08001,valid_normalized,Typo should be corrected to Barcelona
+"Plaza Mayor 1",Valncia,46001,valid_normalized,Typo should be corrected to Valencia
+"Calle Principal 1",Malaga,29001,valid,Missing accent should still match Málaga
+"Calle Real 1",Cordoba,14001,valid,Missing accent should still match Córdoba
+"Av. Principal 1",Cadiz,11001,valid,Missing accent should still match Cádiz
+"Calle Nueva 1",Almeria,04001,valid,Missing accent should still match Almería
+"Calle Mayor 1",Winterfell,28001,needs_review,Fictional city
+"Av. Principal 1",Gotham,08001,needs_review,Fictional city
+"Calle Real 1",Mordor,41001,needs_review,Fictional city
+"c/ Sol 5, Bajo C",Palma,07001,valid,Palma de Mallorca variant
+"Calle del Prado 1",Vitoria,01001,valid,Vitoria-Gasteiz variant
+"Av. de la Estación 1",Pamplona,31001,valid,Pamplona-Iruña variant
+"Calle Mayor 1, 2º Izq",Oviedo,33001,valid,With floor and orientation
+"c. Princesa 22, 1ºDcha",Oviedo,33003,valid,Abbreviated with floor
+"Carretera de Cádiz Km 345",Marbella,29600,valid,Highway format
+"Camino de Santiago s/n",Burgos,09001,valid,Without number (s/n)
+"Polígono Industrial Norte 5",Getafe,28903,valid,Industrial area
+"Urbanización Los Pinos 12",Marbella,29600,valid,Urbanization format

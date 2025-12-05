@@ -1,0 +1,11 @@
+address,city,zip,notes,validation_status,validation_message,normalized_city,normalized_postcode,parsed_road,parsed_city,parsed_postcode
+"Calle Gran Vía 32, 5º A",Madrid,28013,"Valid, tourist area",valid,City matches postal code province,Madrid,28013,calle gran vía,Madrid,28013
+"Calle Gran Via 32, 5º A",Madrid,28013,"Duplicate (same content, different spacing)",valid,City matches postal code province,Madrid,28013,calle gran via,Madrid,28013
+"c/ Serrano, 110,bajo",Barcelona,08006,"Valid, common format",valid,City matches postal code province,Barcelona,08006,c/ serrano,Barcelona,08006
+Plaza de España 1-2,Seville,41001,"Valid, plaza format",valid_normalized,"City validated by LLM: Seville is a valid name for a city in the province of Seville, and it is a regional language variant",Sevilla,41001,plaza de españa,Seville,41001
+Rambla dels Caputxins 15,Valencia,46001,"Misspelling opportunity, common street",valid,City matches postal code province,Valencia,46001,rambla dels caputxins,Valencia,46001
+AAAAAA BBBB CCCCCCCC,Malaga,29000,Nonsense/Gibberish,nonsense,Street address is gibberish: The address provided contains random characters and does not resemble a valid address format.,,,bbbb cccccccc,Malaga,29000
+"calle Alcalá 45, 3D",Madrid,28014,Valid,valid,City matches postal code province,Madrid,28014,calle alcalá,Madrid,28014
+"Avenida Constitución, 18",Granada,18001,Valid,valid,City matches postal code province,Granada,18001,avenida constitución,Granada,18001
+"Av. Constitución, 18",Granada,18001,Duplicate (Abbreviation),valid,City matches postal code province,Granada,18001,av. constitución,Granada,18001
+"Paseo de Gràcia 50, ático",Barcelona,08007,"Valid, mixed case",valid,City matches postal code province,Barcelona,08007,paseo de gràcia,Barcelona,08007

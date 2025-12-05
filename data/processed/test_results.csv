@@ -1,0 +1,56 @@
+address,city,zip,expected_status,notes,validation_status,validation_message,normalized_city,normalized_postcode,parsed_road,parsed_city,parsed_postcode
+"Calle Gran Vía 32, 5º A",Madrid,28013,valid,Standard valid address,valid,City matches postal code province,Madrid,28013,calle gran vía,Madrid,28013
+"c/ Serrano 110, bajo",Barcelona,08006,valid,Abbreviated street name,valid,City matches postal code province,Barcelona,08006,c/ serrano,Barcelona,08006
+Plaza de España 1-2,Sevilla,41001,valid,Plaza format,valid,City matches postal code province,Sevilla,41001,plaza de españa,Sevilla,41001
+"Av. Diagonal 600, 2ª planta",Zaragoza,50009,valid,Avenue with floor,valid,City matches postal code province,Zaragoza,50009,av. diagonal,Zaragoza,50009
+Paseo de Gràcia 50,Barcelona,08007,valid,Catalan spelling,valid,City matches postal code province,Barcelona,08007,paseo de gràcia,Barcelona,08007
+Calle Mayor 1,Bilbao,48005,valid,Simple format,valid,City matches postal code province,Bilbao,48005,calle mayor,Bilbao,48005
+"Carrer Llacuna 166, 4t",Barcelona,08018,valid,Catalan street name,valid,City matches postal code province,Barcelona,08018,carrer llacuna,Barcelona,08018
+Avenida de la Constitución 18,Granada,18001,valid,Full avenue name,valid,City matches postal code province,Granada,18001,avenida de la constitución,Granada,18001
+Rúa do Franco 15,Santiago de Compostela,15705,valid,Galician street name,valid,City matches postal code province,Santiago de Compostela,15705,rúa do franco,Santiago de Compostela,15705
+Kalea Nagusia 5,Donostia,20001,valid,Basque street name,valid,City matches postal code province,Donostia,20001,kalea nagusia,Donostia,20001
+Calle Solano 1,Pozuelo de Alarcón,28223,valid,Suburb of Madrid,valid,City matches postal code province,Pozuelo de Alarcón,28223,calle solano,Pozuelo de Alarcón,28223
+Plaza Mayor 1,Salamanca,37001,valid,Historic plaza,valid,City matches postal code province,Salamanca,37001,plaza mayor,Salamanca,37001
+"Calle del Carmen 1, 1ºA",Madrid,28013,valid,With apartment,valid,City matches postal code province,Madrid,28013,calle del carmen,Madrid,28013
+AAAAAAA BBBBBBB CCCCCC,Madrid,28013,nonsense,Gibberish characters,nonsense,Street address is gibberish: The address provided contains only random letters and does not follow any address format.,,,,Madrid,28013
+asdfgh jklñ qwerty,Barcelona,08001,nonsense,Keyboard mashing,nonsense,Street address is gibberish: The input contains random characters and does not resemble a valid address.,,,,Barcelona,08001
+TEST TEST PRUEBA,Valencia,46001,nonsense,Test data markers,nonsense,Street address is gibberish: The address provided contains random characters and does not resemble a valid address.,,,,Valencia,46001
+xxxxx yyyyy zzzzz,Sevilla,41001,nonsense,Repeated patterns,nonsense,"Street address is gibberish: The address provided does not follow the standard format of a street, city, and zip code. The input ",,,,Sevilla,41001
+1234567890,Madrid,28001,nonsense,Only numbers,invalid_format,Address contains only numbers,,,,Madrid,28001
+No quiero dar mi dirección,Madrid,28013,nonsense,Refusal in Spanish,nonsense,User refused to provide address: The user clearly states they do not want to provide their address.,,,,Madrid,28013
+Prefiero no decirlo,Barcelona,08001,nonsense,Refusal variant,nonsense,"User refused to provide address: The user explicitly refused to provide the address by stating 'Prefiero no decirlo', which means 'I/",,,,Barcelona,08001
+No tengo dirección,Valencia,46001,nonsense,Another refusal,nonsense,User refused to provide address: The user explicitly stated they do not have an address.,,,,Valencia,46001
+,Madrid,28013,invalid_format,Empty address,invalid_format,Address is empty,,,,Madrid,28013
+AB,Madrid,28013,invalid_format,Too short,invalid_format,Address too short,,,,Madrid,28013
+Calle Mayor 1,Madrid,99999,invalid_format,Invalid province code 99,invalid_format,Invalid postal code province (must be 01-52),,,calle mayor,Madrid,99999
+Calle Mayor 1,Madrid,00000,invalid_format,Invalid province code 00,invalid_format,Invalid postal code province (must be 01-52),,,calle mayor,Madrid,00000
+Calle Mayor 1,Madrid,2801,invalid_format,Only 4 digits,invalid_format,Invalid postal code format,,,calle mayor,Madrid,2801
+Calle Mayor 1,Madrid,ABCDE,invalid_format,Non-numeric postal code,invalid_format,Invalid postal code format,,,calle mayor,Madrid,ABCDE
+Calle Serrano 50,Madrid,08001,invalid_mismatch,Madrid address with Barcelona postal,invalid_mismatch,"City 'Madrid' belongs to province 28, not 08",,,calle serrano,Madrid,08001
+Av. Diagonal 100,Barcelona,28013,invalid_mismatch,Barcelona address with Madrid postal,invalid_mismatch,"City 'Barcelona' belongs to province 08, not 28",,,av. diagonal,Barcelona,28013
+Plaza del Pilar 1,Zaragoza,41001,invalid_mismatch,Zaragoza with Sevilla postal,invalid_mismatch,"City 'Zaragoza' belongs to province 50, not 41",,,plaza del pilar,Zaragoza,41001
+Calle Mayor 1,Bilbao,46001,invalid_mismatch,Bilbao with Valencia postal,invalid_mismatch,"City 'Bilbao' belongs to province 48, not 46",,,calle mayor,Bilbao,46001
+Calle Gran Vía 32,Seville,41001,valid_normalized,English city name should normalize to Sevilla,valid_normalized,"City validated by LLM: Seville is a valid name for a city in the province of Seville, and it is a regional language variant",Sevilla,41001,calle gran vía,Seville,41001
+Paseo de Gracia 50,Lerida,25001,valid_normalized,Spanish spelling should normalize to Lleida,needs_review,City unknown: No valid city found with the given postal code prefix.,,,paseo de gracia,Lerida,25001
+Calle Mayor 1,San Sebastian,20001,valid_normalized,Should match Donostia - San Sebastian,valid,City matches postal code province,San Sebastian,20001,calle mayor,San Sebastian,20001
+Avenida Principal 1,Gerona,17001,valid_normalized,Spanish spelling should normalize to Girona,needs_review,"City unknown: No city found with the name 'Gerona' in the province with postal code starting with 17. The closest,",,,avenida principal,Gerona,17001
+Calle Real 5,La Coruña,15001,valid_normalized,Should match A Coruña,valid,City matches postal code province,La Coruña,15001,calle real,La Coruña,15001
+Calle Mayor 1,Madird,28013,valid_normalized,Typo should be corrected to Madrid,valid_normalized,City validated by LLM: Exact match found in the reference cities list.,Madrid,28013,calle mayor,Madird,28013
+Av. Diagonal 100,Barselona,08001,valid_normalized,Typo should be corrected to Barcelona,valid_normalized,City validated by LLM: Exact match found in the reference cities list.,Barcelona,08001,av. diagonal,Barselona,08001
+Plaza Mayor 1,Valncia,46001,valid_normalized,Typo should be corrected to Valencia,needs_review,City unknown: The city name 'Valncia' does not match any reference city in the province. The correct spelling is ',,,plaza mayor,Valncia,46001
+Calle Principal 1,Malaga,29001,valid,Missing accent should still match Málaga,valid,City matches postal code province,Malaga,29001,calle principal,Malaga,29001
+Calle Real 1,Cordoba,14001,valid,Missing accent should still match Córdoba,valid,City matches postal code province,Cordoba,14001,calle real,Cordoba,14001
+Av. Principal 1,Cadiz,11001,valid,Missing accent should still match Cádiz,valid,City matches postal code province,Cadiz,11001,av. principal,Cadiz,11001
+Calle Nueva 1,Almeria,04001,valid,Missing accent should still match Almería,valid,City matches postal code province,Almeria,04001,calle nueva,Almeria,04001
+Calle Mayor 1,Winterfell,28001,needs_review,Fictional city,needs_review,City unknown: Fictional place and not in Madrid province,,,calle mayor,Winterfell,28001
+Av. Principal 1,Gotham,08001,needs_review,Fictional city,needs_review,City unknown: Fictional place,,,av. principal,Gotham,08001
+Calle Real 1,Mordor,41001,needs_review,Fictional city,needs_review,City unknown: Fictional place,,,calle real,Mordor,41001
+"c/ Sol 5, Bajo C",Palma,07001,valid,Palma de Mallorca variant,valid,City matches postal code province,Palma,07001,c/ sol,Palma,07001
+Calle del Prado 1,Vitoria,01001,valid,Vitoria-Gasteiz variant,valid,City matches postal code province,Vitoria,01001,calle del prado,Vitoria,01001
+Av. de la Estación 1,Pamplona,31001,valid,Pamplona-Iruña variant,valid,City matches postal code province,Pamplona,31001,av. de la estación,Pamplona,31001
+"Calle Mayor 1, 2º Izq",Oviedo,33001,valid,With floor and orientation,valid,City matches postal code province,Oviedo,33001,calle mayor,Oviedo,33001
+"c. Princesa 22, 1ºDcha",Oviedo,33003,valid,Abbreviated with floor,valid,City matches postal code province,Oviedo,33003,c. princesa,Oviedo,33003
+Carretera de Cádiz Km 345,Marbella,29600,valid,Highway format,valid,City matches postal code province,Marbella,29600,carretera de cádiz,Marbella,29600
+Camino de Santiago s/n,Burgos,09001,valid,Without number (s/n),valid,City matches postal code province,Burgos,09001,camino de santiago s/n,Burgos,09001
+Polígono Industrial Norte 5,Getafe,28903,valid,Industrial area,valid,City matches postal code province,Getafe,28903,,Getafe,28903
+Urbanización Los Pinos 12,Marbella,29600,valid,Urbanization format,valid,City matches postal code province,Marbella,29600,urbanización los pinos,Marbella,29600
