@@ -1,73 +1,102 @@
 """
 LLM-based address review for edge cases.
 
-Uses local Qwen model for:
+Uses local Qwen model with Outlines for structured generation:
 1. Semantic nonsense detection (gibberish, refusals, test data)
 2. Unknown city validation (language variations)
 """
 
-from dataclasses import dataclass
 from enum import Enum
-from mlx_lm import load, generate
+from typing import Literal
+
+import outlines
+from mlx_lm import load
+from pydantic import BaseModel, Field
 
 
-class AddressIntent(Enum):
-    VALID_ATTEMPT = "valid_attempt"  # Real attempt at an address
-    GIBBERISH = "gibberish"  # Random characters, keyboard mashing
-    REFUSAL = "refusal"  # User refused to provide address
-    TEST_DATA = "test_data"  # Test/placeholder data
-    UNCLEAR = "unclear"  # Model unsure
+class AddressIntent(str, Enum):
+    VALID_ATTEMPT = "valid_attempt"
+    GIBBERISH = "gibberish"
+    REFUSAL = "refusal"
+    TEST_DATA = "test_data"
 
 
-@dataclass
+class NonsenseCheckOutput(BaseModel):
+    """Structured output for nonsense detection."""
+
+    classification: Literal["valid_attempt", "gibberish", "refusal", "test_data"] = Field(
+        description="The intent classification"
+    )
+    confidence: Literal["high", "medium", "low"] = Field(
+        description="Confidence level"
+    )
+    reason: str = Field(
+        description="Brief explanation",
+        max_length=100
+    )
+
+
+class CityValidationOutput(BaseModel):
+    """Structured output for city validation."""
+
+    is_valid: bool = Field(
+        description="Whether the city name is valid for this province"
+    )
+    normalized_city: str = Field(
+        description="The official Spanish city name, or 'none' if invalid",
+        max_length=50
+    )
+    reason: str = Field(
+        description="Brief explanation",
+        max_length=100
+    )
+
+
 class NonsenseResult:
-    intent: AddressIntent
-    confidence: str  # "high", "medium", "low"
-    explanation: str
+    """Result of nonsense check."""
+
+    def __init__(self, intent: AddressIntent, confidence: str, explanation: str):
+        self.intent = intent
+        self.confidence = confidence
+        self.explanation = explanation
 
 
-@dataclass
 class CityValidationResult:
-    is_valid: bool
-    normalized_city: str | None
-    explanation: str
+    """Result of city validation."""
+
+    def __init__(self, is_valid: bool, normalized_city: str | None, explanation: str):
+        self.is_valid = is_valid
+        self.normalized_city = normalized_city
+        self.explanation = explanation
 
 
 class AddressReviewer:
-    """LLM-based reviewer for address edge cases."""
+    """LLM-based reviewer for address edge cases using structured generation."""
 
     def __init__(self, model_path: str = "mlx-community/Qwen2.5-7B-Instruct-4bit"):
-        """Load the model.
+        """Initialize the reviewer.
 
         Args:
             model_path: HuggingFace model path for mlx_lm
         """
         self.model_path = model_path
-        self.model = None
-        self.tokenizer = None
+        self._model = None
+        self._tokenizer = None
+        self._outlines_model = None
+        self._nonsense_generator = None
+        self._city_generator = None
 
     def _ensure_loaded(self):
-        """Lazy load the model on first use."""
-        if self.model is None:
-            self.model, self.tokenizer = load(self.model_path)
-
-    def _generate(self, prompt: str, max_tokens: int = 100) -> str:
-        """Generate a response from the model."""
-        self._ensure_loaded()
-
-        messages = [{"role": "user", "content": prompt}]
-        formatted = self.tokenizer.apply_chat_template(
-            messages, tokenize=False, add_generation_prompt=True
-        )
-
-        response = generate(
-            self.model,
-            self.tokenizer,
-            prompt=formatted,
-            max_tokens=max_tokens
-        )
-
-        return response.strip()
+        """Lazy load the model and generators on first use."""
+        if self._model is None:
+            self._model, self._tokenizer = load(self.model_path)
+            self._outlines_model = outlines.from_mlxlm(self._model, self._tokenizer)
+            self._nonsense_generator = outlines.Generator(
+                self._outlines_model, output_type=NonsenseCheckOutput
+            )
+            self._city_generator = outlines.Generator(
+                self._outlines_model, output_type=CityValidationOutput
+            )
 
     def check_nonsense(self, address: str) -> NonsenseResult:
         """Check if an address appears to be intentional nonsense.
@@ -78,63 +107,33 @@ class AddressReviewer:
         Returns:
             NonsenseResult with intent classification
         """
+        self._ensure_loaded()
+
         prompt = f"""Analyze this Spanish address input and classify the user's intent.
 
 Address: "{address}"
 
-Classify as ONE of:
-- VALID_ATTEMPT: A genuine attempt to provide an address (may have typos or be incomplete, that's OK)
-- GIBBERISH: Random characters, keyboard mashing, meaningless text
-- REFUSAL: User explicitly refused to provide address (e.g., "No quiero", "No tengo")
-- TEST_DATA: Obvious test/placeholder data (e.g., "TEST", "PRUEBA", "asdfgh")
+Classifications:
+- valid_attempt: A genuine attempt to provide an address (typos/incomplete OK)
+- gibberish: Random characters, keyboard mashing, meaningless text
+- refusal: User refused to provide address (e.g., "No quiero", "No tengo")
+- test_data: Obvious test/placeholder data (e.g., "TEST", "PRUEBA")
 
-Respond in this exact format:
-CLASSIFICATION: [one of the above]
-CONFIDENCE: [high/medium/low]
-REASON: [brief explanation]"""
+Return JSON with classification, confidence (high/medium/low), and reason."""
 
-        response = self._generate(prompt, max_tokens=80)
-
-        # Parse response
-        intent = AddressIntent.UNCLEAR
-        confidence = "low"
-        explanation = response
-
-        lines = response.upper().split("\n")
-        for line in lines:
-            if "CLASSIFICATION:" in line:
-                if "VALID_ATTEMPT" in line:
-                    intent = AddressIntent.VALID_ATTEMPT
-                elif "GIBBERISH" in line:
-                    intent = AddressIntent.GIBBERISH
-                elif "REFUSAL" in line:
-                    intent = AddressIntent.REFUSAL
-                elif "TEST_DATA" in line:
-                    intent = AddressIntent.TEST_DATA
-            elif "CONFIDENCE:" in line:
-                if "HIGH" in line:
-                    confidence = "high"
-                elif "MEDIUM" in line:
-                    confidence = "medium"
-                elif "LOW" in line:
-                    confidence = "low"
-
-        # Extract reason if present
-        for line in response.split("\n"):
-            if line.upper().startswith("REASON:"):
-                explanation = line.split(":", 1)[1].strip()
-                break
+        json_str = self._nonsense_generator(prompt)
+        result = NonsenseCheckOutput.model_validate_json(json_str)
 
         return NonsenseResult(
-            intent=intent,
-            confidence=confidence,
-            explanation=explanation
+            intent=AddressIntent(result.classification),
+            confidence=result.confidence,
+            explanation=result.reason
         )
 
-    def validate_city(self, city: str, postcode: str, province_cities: list[str]) -> CityValidationResult:
+    def validate_city(
+        self, city: str, postcode: str, province_cities: list[str]
+    ) -> CityValidationResult:
         """Validate if a city name is a valid variant for a province.
-
-        Handles language variations (Catalan, Basque, Galician) and common misspellings.
 
         Args:
             city: City name from address
@@ -144,53 +143,28 @@ REASON: [brief explanation]"""
         Returns:
             CityValidationResult with validation and normalized name
         """
-        cities_str = ", ".join(province_cities[:10])  # Limit for prompt size
+        self._ensure_loaded()
 
-        prompt = f"""Does "{city}" refer to a city in Spanish postal code {postcode}?
+        cities_str = ", ".join(province_cities[:10])
 
-Known cities in this area: {cities_str}
+        prompt = f"""Is "{city}" a valid name for a city in Spanish province with postal code starting with {postcode[:2]}?
 
-Answer YES if:
-- Exact match (Lleida = Lleida)
-- Language variant (Lérida = Lleida, Donostia = San Sebastián)
-- Typo (Madird = Madrid)
-- Missing accent (Malaga = Málaga)
+Reference cities in this province: {cities_str}
 
-Answer NO only if fictional or wrong province.
+Answer is_valid=true if the city name matches or is a variant of any reference city.
+Accept: exact matches, regional language variants, minor typos, missing accents.
+Answer is_valid=false only for fictional places or cities in a different Spanish province."""
 
-Format:
-VALID: yes or no
-NORMALIZED: correct city name, or none
-REASON: one sentence"""
+        json_str = self._city_generator(prompt)
+        result = CityValidationOutput.model_validate_json(json_str)
 
-        response = self._generate(prompt, max_tokens=120)
-
-        # Parse response
-        is_valid = False
+        # Only return normalized city if marked as valid
         normalized = None
-        explanation = response
-
-        lines = response.upper().split("\n")
-        for line in lines:
-            if "VALID:" in line:
-                is_valid = "YES" in line
-            elif "NORMALIZED:" in line:
-                # Extract the normalized name (preserve original case from response)
-                for orig_line in response.split("\n"):
-                    if orig_line.upper().startswith("NORMALIZED:"):
-                        norm_value = orig_line.split(":", 1)[1].strip()
-                        if norm_value.lower() != "none":
-                            normalized = norm_value
-                        break
-
-        # Extract reason if present
-        for line in response.split("\n"):
-            if line.upper().startswith("REASON:"):
-                explanation = line.split(":", 1)[1].strip()
-                break
+        if result.is_valid and result.normalized_city.lower() != "none":
+            normalized = result.normalized_city
 
         return CityValidationResult(
-            is_valid=is_valid,
+            is_valid=result.is_valid,
             normalized_city=normalized,
-            explanation=explanation
+            explanation=result.reason
         )
